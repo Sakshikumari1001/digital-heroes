@@ -147,6 +147,65 @@ Mark Payout as Paid
 
 ---
 
+## 🗄️ Database Schema (Supabase / PostgreSQL)
+
+Row-Level Security is enabled on every table, so a user can only read/write their own data; admin-only writes (publishing draws, marking payouts) go through a service-role key used exclusively inside server-verified admin actions.
+
+| Table            | Purpose                                                          |
+| ----------------- | ----------------------------------------------------------------- |
+| `profiles`         | User profile, role (subscriber/admin), chosen charity & %       |
+| `subscriptions`     | Plan, status, Stripe customer/subscription IDs, renewal date    |
+| `scores`            | Rolling 5-score window per user (DB trigger auto-prunes oldest) |
+| `charities` / `charity_events` | Charity directory & upcoming event listings          |
+| `donations`         | Independent, one-off contributions (not tied to gameplay)       |
+| `draws`             | Monthly draw config, winning numbers, pool total, rollover      |
+| `draw_entries`      | Snapshot of each participant's scores at draw time               |
+| `winners`           | Match tier, prize amount, verification & payment status         |
+
+---
+
+## ⚙️ How the Draw Engine Works
+
+* **Random mode** — 5 unique numbers (1–45) picked uniformly using a cryptographically secure RNG (`node:crypto`)
+* **Algorithmic mode** — numbers players log most often as scores are weighted higher (`weight = 1 + frequency`), so frequently-played numbers are more likely to be drawn, while every number stays possible
+* **Prize pool** — 50% of active subscribers' monthly-equivalent fees fund the pool each month (yearly plans normalised as `yearly price ÷ 12`)
+* **Tiers** — 5-number match gets 40% of the pool (jackpot), 4-number gets 35%, 3-number gets 25%
+* **Splitting** — a tier's pool is split equally among all winners in that tier
+* **Rollover** — if nobody hits the 5-number jackpot, that tier's full amount carries into next month's jackpot (4- and 3-number tiers do **not** roll over, per the PRD)
+* **Simulate → Publish** — admins can simulate a draw (preview numbers, pool, and projected winners) as many times as needed before publishing; publishing locks the entries and generates winner records
+
+---
+
+## 🧩 Assumptions & Design Decisions
+
+The PRD intentionally left some mechanics open to interpretation. Documented here for transparency:
+
+| Area | Assumption Made |
+|---|---|
+| **Prize pool size** | 50% of each subscriber's monthly-equivalent fee funds the pool |
+| **Draw eligibility** | Only active subscribers with **all 5 scores** on file are entered into that month's draw |
+| **Match counting** | Matches are counted on **distinct** score values — a duplicate score can only count once |
+| **"Oldest" score** | Determined by **date played**, not entry order — the earliest-dated score is replaced first when a 6th is added |
+| **Rollover scope** | Only the 5-match jackpot rolls over when unclaimed; 4- and 3-match pools do not |
+
+---
+
+## ✅ Testing Checklist
+
+- [x] User signup & login (charity selection at onboarding)
+- [x] Subscription flow — monthly and yearly, via Stripe Checkout
+- [x] Score entry — 5-score rolling logic, duplicate-date rejection, edit/delete
+- [x] Draw system — random & algorithmic simulation, publish, prize maths verified
+- [x] Charity selection and contribution % changes
+- [x] Independent donation flow
+- [x] Winner verification — proof upload → admin approve/reject → payout tracking
+- [x] User dashboard — all modules functional
+- [x] Admin panel — draws & winners management
+- [x] Responsive layout (mobile & desktop)
+- [x] Error handling across forms and payment flows
+
+---
+
 ## 🚀 Getting Started
 
 ### 1. Clone the Repository
@@ -175,10 +234,15 @@ Create a `.env.local` file and add your own **Supabase** and **Stripe** credenti
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
 # Stripe
 STRIPE_SECRET_KEY=your_stripe_secret_key
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+STRIPE_PRICE_MONTHLY=your_monthly_price_id
+STRIPE_PRICE_YEARLY=your_yearly_price_id
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+
+NEXT_PUBLIC_SITE_URL=your_deployed_site_url
 ```
 
 > ⚠️ Never commit your real API keys or secrets to GitHub.
@@ -230,6 +294,22 @@ https://github.com/Sakshikumari1001/digital-heroes
 * 👨‍💼 Dedicated admin dashboard
 * 📱 Responsive web interface
 * ☁️ Vercel deployment
+
+---
+
+## 🔭 Future Scope
+
+Given more time beyond the assignment window, the following would be natural next steps:
+
+* **Admin: Users & Charities CRUD** — full user management (edit/suspend), charity content management with media uploads
+* **Admin: Reports & Analytics** — total users, prize pool history, charity contribution totals, and draw statistics as visual dashboards
+* **Homepage & marketing site** — an emotion-led, animation-rich landing page per the PRD's UI/UX brief
+* **Email notifications** — draw results, win confirmations, and payout updates
+* **Automated monthly draws** — a scheduled job to auto-run the draw on a fixed date instead of manual admin triggering
+* **Leaderboards & score history charts** — visualising a player's Stableford trend over time
+* **Multi-currency support** — localised pricing for international rollout
+* **Native mobile app** — reusing the same Supabase backend
+* **Audit logging** — a trail of admin actions (who published which draw, who approved which payout)
 
 ---
 
