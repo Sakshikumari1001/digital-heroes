@@ -1,11 +1,27 @@
-# Digital Heroes 🏌️‍♀️
+<p align="center">
+  <img src="https://cdn.simpleicons.org/nextdotjs/000000" width="70" height="70" alt="logo"/>
+</p>
 
-A subscription-driven web platform combining **golf performance tracking, charity fundraising, and a monthly draw-based reward engine** — built for the **Digital Heroes trainee selection process (PRD Level 1)**.
+<h1 align="center">Digital Heroes 🏌️‍♀️</h1>
+
+<p align="center"><b>Golf Performance • Monthly Prize Draws • Charity Giving</b></p>
 
 <p align="center">
-  <a href="https://digital-heroes-5kvz.vercel.app/">
-    <img src="https://img.shields.io/badge/Live%20Demo-Digital%20Heroes-success?style=for-the-badge&logo=vercel" alt="Live Demo"/>
-  </a>
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js"/>
+  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS"/>
+  <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=black" alt="Supabase"/>
+  <img src="https://img.shields.io/badge/Stripe-635BFF?style=for-the-badge&logo=stripe&logoColor=white" alt="Stripe"/>
+  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel"/>
+</p>
+
+<p align="center"><i>Secure golf-score tracking, algorithm-powered monthly prize draws, and charity giving — built end-to-end<br/>on the Next.js + Supabase + Stripe stack for the Digital Heroes trainee selection process.</i></p>
+
+<p align="center">
+  🚀 <a href="https://digital-heroes-5kvz.vercel.app/">Live Demo</a> ·
+  <a href="https://github.com/Sakshikumari1001/digital-heroes/issues">Report Bug</a> ·
+  <a href="https://github.com/Sakshikumari1001/digital-heroes">GitHub Repo</a>
 </p>
 
 ---
@@ -63,10 +79,14 @@ Digital Heroes is a web platform that connects golf performance tracking with ch
 <p align="left">
   <img src="https://cdn.simpleicons.org/nextdotjs/white" alt="Next.js" width="55" height="55"/>
   &nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/react/61DAFB" alt="React" width="55" height="55"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/typescript/3178C6" alt="TypeScript" width="55" height="55"/>
+  &nbsp;&nbsp;&nbsp;
   <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="Tailwind CSS" width="55" height="55"/>
 </p>
 
-**Next.js** • **Tailwind CSS**
+**Next.js 15 (App Router)** • **React 19** • **TypeScript** • **Tailwind CSS**
 
 ### 🗄️ Database & Authentication
 
@@ -74,7 +94,7 @@ Digital Heroes is a web platform that connects golf performance tracking with ch
   <img src="https://cdn.simpleicons.org/supabase/3ECF8E" alt="Supabase" width="55" height="55"/>
 </p>
 
-**Supabase**
+**Supabase** — PostgreSQL, Auth, Storage & Row-Level Security
 
 ### 💳 Payments
 
@@ -82,7 +102,7 @@ Digital Heroes is a web platform that connects golf performance tracking with ch
   <img src="https://cdn.simpleicons.org/stripe/635BFF" alt="Stripe" width="55" height="55"/>
 </p>
 
-**Stripe**
+**Stripe** — Subscriptions, one-time donations & webhooks
 
 ### ☁️ Deployment
 
@@ -111,7 +131,7 @@ Digital Heroes is a web platform that connects golf performance tracking with ch
 
 ## 🔄 User Workflow
 
-```text
+\`\`\`text
 Create Account
       ↓
 Select Charity & Donation Share
@@ -125,11 +145,11 @@ Enter Golf Scores
 Participate in Monthly Draw
       ↓
 Track Winnings & Payout Status
-```
+\`\`\`
 
 ## 🔄 Admin Workflow
 
-```text
+\`\`\`text
 Admin Login
      ↓
 Open Admin Panel
@@ -143,7 +163,7 @@ Review Winners
 Verify Winner Proof
      ↓
 Mark Payout as Paid
-```
+\`\`\`
 
 ---
 
@@ -210,27 +230,27 @@ The PRD intentionally left some mechanics open to interpretation. Documented her
 
 ### 1. Clone the Repository
 
-```bash
+\`\`\`bash
 git clone https://github.com/Sakshikumari1001/digital-heroes.git
-```
+\`\`\`
 
 ### 2. Navigate to the Project
 
-```bash
+\`\`\`bash
 cd digital-heroes
-```
+\`\`\`
 
 ### 3. Install Dependencies
 
-```bash
+\`\`\`bash
 npm install
-```
+\`\`\`
 
 ### 4. Configure Environment Variables
 
 Create a `.env.local` file and add your own **Supabase** and **Stripe** credentials.
 
-```env
+\`\`\`env
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -243,15 +263,15 @@ STRIPE_PRICE_YEARLY=your_yearly_price_id
 STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
 
 NEXT_PUBLIC_SITE_URL=your_deployed_site_url
-```
+\`\`\`
 
 > ⚠️ Never commit your real API keys or secrets to GitHub.
 
 ### 5. Run the Development Server
 
-```bash
+\`\`\`bash
 npm run dev
-```
+\`\`\`
 
 Open the local development server in your browser.
 
@@ -263,11 +283,11 @@ The application can be tested using **Stripe Test Mode**.
 
 ### Test Card
 
-```text
+\`\`\`text
 Card Number: 4242 4242 4242 4242
 Expiry Date: Any future date
 CVC: Any 3 digits
-```
+\`\`\`
 
 > Use Stripe's test environment when testing payments. No real payment is processed.
 
