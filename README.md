@@ -345,7 +345,8 @@ The project demonstrates a complete web application workflow involving user auth
 
 | Name                 | Role                 |
 | -------------------- | -------------------- |
-|   **Sakshi Kumari**  | Full Stack Developer |
+| **Prem Kumar Gupta** | Full Stack Developer |
+| **Sakshi Kumari**    | Full Stack Developer |
 
 ---
 
